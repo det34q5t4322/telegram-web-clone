@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Telegram Web</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dark-theme">
+  <div id="app" class="app-container">
+    
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+      <!-- Sidebar Header -->
+      <div class="sidebar-header">
+        <button id="menu-btn" class="icon-btn" title="Настройки">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="search-container">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input type="text" id="search-chats" placeholder="Поиск">
+        </div>
+      </div>
+
+      <!-- User Info Badge & Actions -->
+      <div class="sidebar-user-bar">
+        <div class="user-profile-summary" id="my-profile-btn">
+          <div class="avatar" id="my-avatar">U</div>
+          <div class="user-details">
+            <span class="user-name" id="my-username">Пользователь</span>
+            <span class="user-status-text">в сети</span>
+          </div>
+        </div>
+        <div class="sidebar-actions">
+          <button id="share-link-btn" class="action-pill" title="Поделиться ссылкой с другом">
+            <i class="fa-solid fa-user-plus"></i> Пригласить
+          </button>
+        </div>
+      </div>
+
+      <!-- Chats List -->
+      <div class="chats-list" id="chats-list">
+        <div class="chat-item active" data-room-id="general" data-room-name="Telegram Global">
+          <div class="avatar bg-blue">
+            <i class="fa-solid fa-paper-plane"></i>
+          </div>
+          <div class="chat-info">
+            <div class="chat-top">
+              <span class="chat-title">Telegram Global</span>
+              <span class="chat-time">15:35</span>
+            </div>
+            <div class="chat-bottom">
+              <span class="chat-preview">Общий чат группы</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-item" data-room-id="ai_bot" data-room-name="🤖 Telegram AI Bot">
+          <div class="avatar bg-purple">
+            <i class="fa-solid fa-robot"></i>
+          </div>
+          <div class="chat-info">
+            <div class="chat-top">
+              <span class="chat-title">🤖 Telegram AI Bot</span>
+              <span class="chat-time">Bot</span>
+            </div>
+            <div class="chat-bottom">
+              <span class="chat-preview">Задайте любой вопрос ассистенту</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-item" data-room-id="saved_messages" data-room-name="🔖 Избранное">
+          <div class="avatar bg-green">
+            <i class="fa-solid fa-bookmark"></i>
+          </div>
+          <div class="chat-info">
+            <div class="chat-top">
+              <span class="chat-title">🔖 Избранное</span>
+              <span class="chat-time">Личное</span>
+            </div>
+            <div class="chat-bottom">
+              <span class="chat-preview">Ваши заметки и сохраненные файлы</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CHAT AREA -->
+    <main class="chat-area" id="chat-wallpaper-target">
+      <!-- Chat Header -->
+      <header class="chat-header">
+        <div class="chat-header-info">
+          <button id="back-to-chats" class="icon-btn mobile-only">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <div class="avatar bg-blue" id="active-chat-avatar">
+            <i class="fa-solid fa-paper-plane"></i>
+          </div>
+          <div class="chat-meta">
+            <h2 id="active-chat-title">Telegram Global</h2>
+            <span id="active-chat-subtitle" class="status-subtitle">в сети</span>
+          </div>
+        </div>
+
+        <div class="chat-header-actions">
+          <div class="inchat-search-wrapper hidden" id="inchat-search-bar">
+            <input type="text" id="inchat-search-input" placeholder="Поиск в чате...">
+            <button id="close-inchat-search" class="icon-btn tiny"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+
+          <button id="btn-inchat-search" class="icon-btn" title="Поиск по сообщениям">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+
+          <button id="btn-audio-call" class="icon-btn" title="Аудиозвонок">
+            <i class="fa-solid fa-phone"></i>
+          </button>
+
+          <button id="btn-video-call" class="icon-btn" title="Видеозвонок">
+            <i class="fa-solid fa-video"></i>
+          </button>
+
+          <button id="btn-wallpaper-modal" class="icon-btn" title="Обои чата">
+            <i class="fa-solid fa-palette"></i>
+          </button>
+
+          <button id="theme-toggle-btn" class="icon-btn" title="Сменить тему">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+
+          <button id="header-share-btn" class="icon-btn" title="Ссылка для друга">
+            <i class="fa-solid fa-link"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Sticky Pinned Message Banner -->
+      <div id="pinned-banner" class="pinned-banner hidden">
+        <i class="fa-solid fa-thumbtack pin-icon"></i>
+        <div class="pinned-content" id="pinned-content-btn">
+          <span class="pinned-title">Закрепленное сообщение</span>
+          <span class="pinned-snippet" id="pinned-snippet">Текст сообщения</span>
+        </div>
+        <button id="unpin-btn" class="icon-btn tiny">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Messages View -->
+      <div class="messages-container" id="messages-container">
+        <div class="date-divider">
+          <span>Сегодня</span>
+        </div>
+      </div>
+
+      <!-- Reply Banner Container -->
+      <div id="reply-banner" class="reply-banner hidden">
+        <div class="reply-bar-accent"></div>
+        <div class="reply-content">
+          <span class="reply-user" id="reply-user">Пользователь</span>
+          <span class="reply-text" id="reply-text">Текст сообщения</span>
+        </div>
+        <button id="cancel-reply-btn" class="icon-btn tiny">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Typing Indicator -->
+      <div id="typing-indicator" class="typing-indicator hidden">
+        <span id="typing-text">Кто-то печатает...</span>
+      </div>
+
+      <!-- Chat Input Footer -->
+      <footer class="chat-input-footer">
+        <input type="file" id="file-input" class="hidden" accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.txt,.zip">
+        
+        <button id="attach-btn" class="icon-btn" title="Прикрепить файл">
+          <i class="fa-solid fa-paperclip"></i>
+        </button>
+
+        <button id="poll-btn" class="icon-btn" title="Создать опрос">
+          <i class="fa-solid fa-chart-simple"></i>
+        </button>
+
+        <div class="input-wrapper">
+          <textarea id="message-input" placeholder="Написать сообщение..." rows="1"></textarea>
+          <button id="emoji-picker-btn" class="icon-btn" title="Стикеры и Эмодзи">
+            <i class="fa-regular fa-face-smile"></i>
+          </button>
+        </div>
+
+        <!-- Voice Note Recording Container -->
+        <div id="voice-recording-ui" class="voice-recording-ui hidden">
+          <span class="rec-dot"></span>
+          <span id="voice-timer">00:00</span>
+          <span class="voice-hint">Идет запись...</span>
+          <button id="cancel-voice-btn" class="icon-btn text-danger">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+
+        <button id="voice-btn" class="icon-btn voice-mode" title="Голосовое сообщение">
+          <i class="fa-solid fa-microphone"></i>
+        </button>
+        
+        <button id="send-btn" class="send-btn hidden" title="Отправить">
+          <i class="fa-solid fa-paper-plane"></i>
+        </button>
+      </footer>
+    </main>
+  </div>
+
+  <!-- STICKER / EMOJI / GIF POPUP -->
+  <div id="emoji-popup" class="emoji-popup hidden">
+    <div class="popup-tabs">
+      <button class="tab-btn active" data-tab="tab-emojis">😀 Эмодзи</button>
+      <button class="tab-btn" data-tab="tab-stickers">🏷️ Стикеры</button>
+      <button class="tab-btn" data-tab="tab-gifs">🎬 GIF</button>
+    </div>
+
+    <div id="tab-emojis" class="tab-content active">
+      <div class="emoji-grid">
+        <span>👍</span><span>❤️</span><span>😂</span><span>🔥</span><span>👏</span><span>🎉</span>
+        <span>😍</span><span>🙏</span><span>😁</span><span>😎</span><span>🥳</span><span>😭</span>
+        <span>🤔</span><span>🤯</span><span>💩</span><span>🚀</span><span>💯</span><span>✨</span>
+        <span>👋</span><span>🤝</span><span>🙈</span><span>👀</span><span>⚡</span><span>🎈</span>
+        <span>🤡</span><span>👻</span><span>💀</span><span>❤️‍🔥</span><span>💋</span><span>⭐</span>
+      </div>
+    </div>
+
+    <div id="tab-stickers" class="tab-content">
+      <div class="stickers-grid" id="stickers-grid"></div>
+    </div>
+
+    <div id="tab-gifs" class="tab-content">
+      <div class="gifs-grid" id="gifs-grid"></div>
+    </div>
+  </div>
+
+  <!-- POLL CREATION MODAL -->
+  <div id="poll-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Создать опрос</h3>
+      </div>
+      <div class="modal-body">
+        <div class="input-group">
+          <label for="poll-question-input">Вопрос опроса</label>
+          <input type="text" id="poll-question-input" placeholder="Например: Куда пойдём сегодня?">
+        </div>
+        <div class="input-group">
+          <label>Варианты ответов</label>
+          <input type="text" class="poll-option-input" placeholder="Вариант 1">
+          <input type="text" class="poll-option-input" placeholder="Вариант 2" style="margin-top: 8px;">
+          <input type="text" class="poll-option-input" placeholder="Вариант 3 (опционально)" style="margin-top: 8px;">
+        </div>
+        <div class="modal-actions" style="display: flex; gap: 10px;">
+          <button id="cancel-poll-btn" class="primary-btn sm" style="background: var(--bg-hover); color: var(--text-primary);">Отмена</button>
+          <button id="submit-poll-btn" class="primary-btn sm">Создать</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TELEGRAM CALL MODAL -->
+  <div id="call-modal" class="modal-overlay hidden">
+    <div class="modal-card call-card">
+      <div class="call-avatar-wrapper">
+        <div class="avatar xl bg-blue pulse-ring" id="call-avatar">U</div>
+      </div>
+      <h3 id="call-username">Звонок пользователю</h3>
+      <p id="call-status">Вызов...</p>
+
+      <div class="call-actions">
+        <button id="call-mute-btn" class="call-action-btn"><i class="fa-solid fa-microphone-slash"></i></button>
+        <button id="call-end-btn" class="call-action-btn hangup"><i class="fa-solid fa-phone-slash"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- WALLPAPER SELECTOR MODAL -->
+  <div id="wallpaper-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Фон и обои чата</h3>
+        <button class="close-modal-btn icon-btn" id="close-wallpaper-modal"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="wallpaper-grid">
+          <div class="wp-item wp-default" data-wp="default">Telegram Classic</div>
+          <div class="wp-item wp-midnight" data-wp="midnight">Midnight Dark</div>
+          <div class="wp-item wp-sunset" data-wp="sunset">Sunset Gold</div>
+          <div class="wp-item wp-cyber" data-wp="cyber">Cyberpunk Neon</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- USER REGISTRATION / SETTINGS MODAL -->
+  <div id="profile-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <i class="fa-brands fa-telegram telegram-logo"></i>
+        <h3>Вход в Telegram</h3>
+        <p>Введите ваше имя и выберите аватар, чтобы начать общаться с другом</p>
+      </div>
+      <div class="modal-body">
+        <div class="avatar-picker">
+          <div id="modal-avatar-preview" class="avatar xl bg-blue">U</div>
+          <label for="avatar-file" class="avatar-upload-btn" title="Загрузить фото">
+            <i class="fa-solid fa-camera"></i>
+          </label>
+          <input type="file" id="avatar-file" accept="image/*" class="hidden">
+        </div>
+        <div class="input-group">
+          <label for="username-input">Ваше Имя / Никнейм</label>
+          <input type="text" id="username-input" placeholder="Например: Александр" maxlength="25">
+        </div>
+        <button id="save-profile-btn" class="primary-btn">Войти в мессенджер</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHARE LINK / INVITE MODAL -->
+  <div id="share-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Пригласить друга (Из любого города)</h3>
+        <button class="close-modal-btn icon-btn" id="close-share-modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">Отправьте эту интернет-ссылку другу из любого города, чтобы он зашел в ваш чат в реальном времени!</p>
+        
+        <div class="share-box">
+          <input type="text" id="share-url-input" readonly>
+          <button id="copy-share-btn" class="primary-btn sm">
+            <i class="fa-solid fa-copy"></i> Копировать
+          </button>
+        </div>
+
+        <div id="passcode-box" class="network-info-box hidden">
+          <i class="fa-solid fa-key"></i>
+          <div>
+            <strong>Пароль тоннеля (если запросит при входе):</strong> <code id="passcode-val">...</code>
+          </div>
+        </div>
+
+        <div class="network-info-box">
+          <i class="fa-solid fa-globe"></i>
+          <div>
+            <strong>Публичная ссылка:</strong> Ссылка работает по всему миру через интернет. Другу достаточно просто открыть её в браузере!
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX IMAGE MODAL -->
+  <div id="lightbox-modal" class="modal-overlay lightbox hidden">
+    <button class="close-modal-btn icon-btn light" id="close-lightbox">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <img id="lightbox-img" src="" alt="Media Preview">
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
